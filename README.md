@@ -1,6 +1,6 @@
 # dip-code
 
-Веб-приложение для просмотра пользователей и постов через [GoRest API](https://gorest.co.in/).
+[Веб-приложение](https://dip-code.vercel.app/) для просмотра пользователей и постов через [GoRest API](https://gorest.co.in/).
 
 ## Стек
 
