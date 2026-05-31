@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { TextField } from '@consta/uikit/TextField'
 import { Button } from '@consta/uikit/Button'
 import { ChoiceGroup } from '@consta/uikit/ChoiceGroup'
+import { Text } from '@consta/uikit/Text'
 import { useToken } from '../hooks/useToken'
 
 import styles from './HomePage.module.css'
@@ -19,6 +20,8 @@ const modeLabels: Record<Mode, string> = {
 export default function HomePage() {
   const { setToken } = useToken()
   const navigate = useNavigate()
+
+  useEffect(() => { document.title = 'Главная' }, [])
 
   const [inputValue, setInputValue] = useState<string | null>(null)
   const [mode, setMode] = useState<Mode>('users')
@@ -38,6 +41,9 @@ export default function HomePage() {
   return (
     <div className={styles.page}>
       <div className={styles.form}>
+        <Text size="2xl" weight="semibold" className={styles.title}>
+          Добро пожаловать!
+        </Text>
         <ChoiceGroup
           name="mode"
           items={modes}

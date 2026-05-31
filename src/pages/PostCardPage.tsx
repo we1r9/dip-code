@@ -64,14 +64,16 @@ export default function PostCardPage() {
         ])
 
         if (!postRes.ok) {
-          setNotFound(true)
+          if (postRes.status === 404) setNotFound(true)
+          else setNetworkError(true)
           return
         }
 
         const postData: Post = await postRes.json()
-        const commentsData: Comment[] = await commentsRes.json()
+        const commentsData: Comment[] = commentsRes.ok ? await commentsRes.json() : []
 
         setPost(postData)
+        document.title = postData.title.split(' ').slice(0, 3).join(' ') + '...'
         if (Array.isArray(commentsData)) setComments(commentsData)
 
         const userRes = await fetch(
@@ -118,7 +120,7 @@ export default function PostCardPage() {
             actions={
               <Button
                 label="Перезагрузить"
-                view="ghost"
+                view="primary"
                 onClick={() => window.location.reload()}
               />
             }

@@ -44,12 +44,15 @@ export default function UserCardPage() {
         })
 
         if (!res.ok) {
-          setNotFound(true)
+          if (res.status === 404) setNotFound(true)
+          else setNetworkError(true)
           return
         }
 
         const data: User = await res.json()
         setUser(data)
+        const [firstName, lastName] = data.name.trim().split(' ')
+        document.title = lastName ? `${firstName} ${lastName[0]}.` : firstName
       } catch {
         setNetworkError(true)
       } finally {
@@ -82,7 +85,7 @@ export default function UserCardPage() {
             actions={
               <Button
                 label="Перезагрузить"
-                view="ghost"
+                view="primary"
                 onClick={() => window.location.reload()}
               />
             }

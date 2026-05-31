@@ -42,6 +42,8 @@ export default function UsersPage() {
   const { token } = useToken()
   const navigate = useNavigate()
 
+  useEffect(() => { document.title = 'Пользователи' }, [])
+
   const [rows, setRows] = useState<Row[]>([])
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
@@ -112,7 +114,7 @@ export default function UsersPage() {
             actions={
               <Button
                 label="Перезагрузить"
-                view="ghost"
+                view="primary"
                 onClick={() => window.location.reload()}
               />
             }

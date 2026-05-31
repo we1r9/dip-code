@@ -32,6 +32,8 @@ export default function PostsPage() {
   const { token } = useToken()
   const navigate = useNavigate()
 
+  useEffect(() => { document.title = 'Посты' }, [])
+
   const [rows, setRows] = useState<Row[]>([])
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
@@ -96,7 +98,7 @@ export default function PostsPage() {
             actions={
               <Button
                 label="Перезагрузить"
-                view="ghost"
+                view="primary"
                 onClick={() => window.location.reload()}
               />
             }
