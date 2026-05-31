@@ -5,6 +5,7 @@ import UsersPage from './pages/UsersPage'
 import UserCardPage from './pages/UserCardPage'
 import PostsPage from './pages/PostsPage'
 import PostCardPage from './pages/PostCardPage'
+import NotFoundPage from './pages/NotFoundPage'
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/users/:id" element={<UserCardPage />} />
           <Route path="/posts" element={<PostsPage />} />
           <Route path="/posts/:id" element={<PostCardPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </TokenProvider>

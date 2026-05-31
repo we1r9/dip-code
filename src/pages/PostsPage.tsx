@@ -107,6 +107,7 @@ export default function PostsPage() {
           columns={columns}
           rows={rows}
           onRowClick={({ id }) => navigate(`/posts/${id}`)}
+          getCellWrap={() => 'truncate'}
         />
       )}
 

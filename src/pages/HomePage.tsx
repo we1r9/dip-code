@@ -50,7 +50,7 @@ export default function HomePage() {
           <div className={styles.inputWrapper}>
             <TextField
               value={inputValue}
-              onChange={setInputValue}
+              onChange={(value) => { setInputValue(value); setError(false) }}
               placeholder="Введите токен"
               status={error ? 'alert' : undefined}
               caption={error ? 'Токен не может быть пустым' : undefined}
