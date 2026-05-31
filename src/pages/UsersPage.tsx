@@ -7,6 +7,7 @@ import { Button } from '@consta/uikit/Button'
 import { Loader } from '@consta/uikit/Loader'
 import { IconArrowLeft } from '@consta/icons/IconArrowLeft'
 import { useToken } from '../hooks/useToken'
+
 import styles from './UsersPage.module.css'
 
 interface User {
