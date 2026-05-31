@@ -1,0 +1,29 @@
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 15vh;
+  min-height: 100vh;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 480px;
+}
+
+.inputRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.inputWrapper {
+  flex: 1;
+  min-height: 80px;
+}
+
+.submitButton {
+  margin-top: 32px;
+}

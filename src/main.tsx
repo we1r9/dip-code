@@ -1,10 +1,13 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
+import { Theme, presetGpnDefault } from '@consta/uikit/Theme'
 import App from './App.tsx'
+import './index.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <Theme preset={presetGpnDefault}>
+      <App />
+    </Theme>
   </StrictMode>,
 )
