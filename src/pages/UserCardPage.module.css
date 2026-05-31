@@ -21,6 +21,16 @@
   justify-content: center;
 }
 
+.notFound {
+  padding-top: 15vh;
+  display: flex;
+  justify-content: center;
+}
+
+.networkError {
+  padding-top: 10vh;
+}
+
 .card {
   width: 100%;
 }

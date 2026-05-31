@@ -6,6 +6,7 @@ import { ChoiceGroup } from '@consta/uikit/ChoiceGroup'
 import { Button } from '@consta/uikit/Button'
 import { Loader } from '@consta/uikit/Loader'
 import { IconArrowLeft } from '@consta/icons/IconArrowLeft'
+import { ResponsesEmptyBox } from '@consta/uikit/ResponsesEmptyBox'
 import { useToken } from '../hooks/useToken'
 
 import styles from './PostsPage.module.css'
@@ -36,12 +37,15 @@ export default function PostsPage() {
   const [totalPages, setTotalPages] = useState(1)
   const [perPage, setPerPage] = useState(10)
   const [loading, setLoading] = useState(false)
+  const [networkError, setNetworkError] = useState(false)
 
   useEffect(() => {
     if (!token) return
 
     async function fetchPosts() {
       setLoading(true)
+      setNetworkError(false)
+      
       try {
         const res = await fetch(
           `https://gorest.co.in/public/v2/posts?page=${page}&per_page=${perPage}`,
@@ -55,6 +59,8 @@ export default function PostsPage() {
         if (!Array.isArray(data)) return
 
         setRows(data.map((post) => ({ id: String(post.id), title: post.title })))
+      } catch {
+        setNetworkError(true)
       } finally {
         setLoading(false)
       }
@@ -82,6 +88,20 @@ export default function PostsPage() {
         <div className={styles.loader}>
           <Loader />
         </div>
+      ) : networkError ? (
+        <div className={styles.networkError}>
+          <ResponsesEmptyBox
+            title="Нет соединения"
+            description="Проверьте подключение к интернету и попробуйте снова"
+            actions={
+              <Button
+                label="Перезагрузить"
+                view="ghost"
+                onClick={() => window.location.reload()}
+              />
+            }
+          />
+        </div>
       ) : (
         <Table
           columns={columns}
@@ -90,23 +110,25 @@ export default function PostsPage() {
         />
       )}
 
-      <div className={styles.controls}>
-        <Pagination
-          items={totalPages}
-          value={page}
-          onChange={setPage}
-          arrows={[{ label: 'Предыдущая' }, { label: 'Следующая' }]}
-          visibleCount={5}
-        />
+      {!networkError && (
+        <div className={styles.controls}>
+          <Pagination
+            items={totalPages}
+            value={page}
+            onChange={setPage}
+            arrows={[{ label: 'Предыдущая' }, { label: 'Следующая' }]}
+            visibleCount={5}
+          />
 
-        <ChoiceGroup
-          name="perPage"
-          items={pageSizeOptions}
-          value={perPage}
-          onChange={handlePerPageChange}
-          getItemLabel={(item: number) => String(item)}
-        />
-      </div>
+          <ChoiceGroup
+            name="perPage"
+            items={pageSizeOptions}
+            value={perPage}
+            onChange={handlePerPageChange}
+            getItemLabel={(item: number) => String(item)}
+          />
+        </div>
+      )}
     </div>
   )
 }

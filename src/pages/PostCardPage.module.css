@@ -21,6 +21,14 @@
   justify-content: center;
 }
 
+.notFound {
+  padding-top: 10vh;
+}
+
+.networkError {
+  padding-top: 10vh;
+}
+
 .content {
   display: flex;
   flex-direction: column;

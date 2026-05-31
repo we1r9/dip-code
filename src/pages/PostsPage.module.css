@@ -21,6 +21,10 @@
   justify-content: center;
 }
 
+.networkError {
+  padding-top: 10vh;
+}
+
 .controls {
   display: flex;
   flex-direction: column;

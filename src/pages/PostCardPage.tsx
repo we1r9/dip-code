@@ -6,6 +6,8 @@ import { Text } from '@consta/uikit/Text'
 import { Avatar } from '@consta/uikit/Avatar'
 import { Loader } from '@consta/uikit/Loader'
 import { IconArrowLeft } from '@consta/icons/IconArrowLeft'
+import { ResponsesEmptyPockets } from '@consta/uikit/ResponsesEmptyPockets'
+import { ResponsesEmptyBox } from '@consta/uikit/ResponsesEmptyBox'
 import { useToken } from '../hooks/useToken'
 
 import styles from './PostCardPage.module.css'
@@ -37,6 +39,8 @@ export default function PostCardPage() {
   const navigate = useNavigate()
 
   const [post, setPost] = useState<Post | null>(null)
+  const [notFound, setNotFound] = useState(false)
+  const [networkError, setNetworkError] = useState(false)
   const [authorName, setAuthorName] = useState<string | null>(null)
   const [comments, setComments] = useState<Comment[]>([])
   const [loading, setLoading] = useState(false)
@@ -46,6 +50,9 @@ export default function PostCardPage() {
 
     async function fetchData() {
       setLoading(true)
+      setNotFound(false)
+      setNetworkError(false)
+      
       try {
         const [postRes, commentsRes] = await Promise.all([
           fetch(`https://gorest.co.in/public/v2/posts/${id}`, {
@@ -55,6 +62,11 @@ export default function PostCardPage() {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ])
+
+        if (!postRes.ok) {
+          setNotFound(true)
+          return
+        }
 
         const postData: Post = await postRes.json()
         const commentsData: Comment[] = await commentsRes.json()
@@ -74,6 +86,8 @@ export default function PostCardPage() {
         } else {
           setAuthorName('Аноним')
         }
+      } catch {
+        setNetworkError(true)
       } finally {
         setLoading(false)
       }
@@ -95,6 +109,30 @@ export default function PostCardPage() {
       {loading ? (
         <div className={styles.loader}>
           <Loader />
+        </div>
+      ) : networkError ? (
+        <div className={styles.networkError}>
+          <ResponsesEmptyBox
+            title="Нет соединения"
+            description="Проверьте подключение к интернету и попробуйте снова"
+            actions={
+              <Button
+                label="Перезагрузить"
+                view="ghost"
+                onClick={() => window.location.reload()}
+              />
+            }
+          />
+        </div>
+      ) : notFound ? (
+        <div className={styles.notFound}>
+          <ResponsesEmptyPockets
+            title="Пост не найден"
+            description="Возможно, он был удален"
+            actions={
+              <></>
+            }
+          />
         </div>
       ) : post ? (
         <div className={styles.content}>
